@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body{
+  background: #02050E;
+  
+  width: 100vw;
+  height: fit-content;
+  background-repeat: repeat-y;
+}
+
+div,h1,h2,h3,h4,h5,h6,p,span,button{
+  font-family: 'Croissant One', cursive;
+  font-family: 'Poppins', sans-serif;
+}
+button,select,input{
+  outline: none;
+}
+
+
+body{
+
+  background-image: url("images/body.png");
+  width: 100vw;
+  height: fit-content;
+
+  background-size: cover;
+  background-repeat: repeat-y;
+}
+
+.boxbgColor{
+  background: linear-gradient(180deg, #E4C362 0%, #9F6809 100%);
+
+}
+.textColor{
+ color : #9F6809; 
+}
+
+.buttonBg{
+  border: 1px solid  #eeb200;
+}
+.buttonBg:hover{
+  border: 1px solid  #a08431;
+}
+
+
+.buttonBgs{
+  border: 1px solid  #91741e;
+}
+
+
+.boxBorder{
+  border: 2px solid  #f7ba03;
+}
+.buttonBg:hover{
+  background: linear-gradient(180deg, #E4C362 0%, #9F6809 100%);
+
+
+}
+.filterBg{
+  /* background-color: rgb(8, 6, 37); */
+}
+.filterBg:hover{
+  background: linear-gradient(180deg, #E4C362 0%, #9F6809 100%);
+
+
+}
+
+.HoverEffect:hover{
+  background: linear-gradient(180deg, #E4C362 0%, #9F6809 100%);
+}
+/* .HoverEffect:hover {
+    ::after button{
+      background-color: aliceblue;
+    }
+} */
+
+
+.boxBround{
+  border:  2px solid  #FFFFFF4D;
+}
+.boxBroundDashad{
+  border:  2px solid  #FFFFFF4D;
+  border-style: dashed;
+}
+
+.inputBg{
+
+  background-color: rgb(51, 51, 59);
+}
+
+
+
+.active{
+  color: #f5b803;
+  font-weight: 800;
+}
+
+*{
+  /* font-family:  Poppins; */
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+.activeClass{
+  display: block;
+}
+.activeClassName{
+  display: none;
+}
+
+button{
+  outline: none;
+}
+
+/* @media only screen and (min-width: 1720px) {
+  .mediaClass{
+    display: none;
+  }
+}
+@media only screen and (min-width: 1525px) {
+  .mediaClass{
+    display: block;
+  }
+} */
+.name{
+
+  background: -webkit-linear-gradient(92.59deg, #D510F5 -3.15%, #FFD705 98.74%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bgName{
+
+  background: linear-gradient(92.59deg, #D510F5 -3.15%, #FFD705 98.74%);
+
+}
+
+.bg-brown{
+  background: rgb(63,59,64);
+  background: linear-gradient(68deg, rgba(63,59,64,1) 0%, rgba(67,62,68,1) 100%);  }
+
+
+  .shadowbox{
+    box-shadow: 0px 0px  5px black,0px 0px  25px black ,0px 0px  50px black,0px 0px  100px black ,0px 0px  200px black,0px 0px  400px black,0px 0px  800px black;
+  }
+
+
+
+
+
+
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+
+
+/* Sell Part*/
+.boxbgColors{
+  background: linear-gradient(180deg, #ffa704 0%, #ec9704 100%);
+
+}
+
+/* background: #DA8B00; */
+
+
+
+
+/* Font  */
+*{
+  font-family:sans-serif;
+}
