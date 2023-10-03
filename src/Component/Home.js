@@ -4,15 +4,15 @@ import LiveAuction from "./LiveAuction";
 import NewestItems from "./NewestItems";
 import ExploreProduct from "./ExploreProduct";
 
-const Home=()=>{
-  return(
+const Home = () => {
+  return (
     <>
-    <Hero />
-    <LiveAuction/>
-    <NewestItems />
-    <ExploreProduct/>
+      <Hero />
+      <LiveAuction />
+      <NewestItems />
+      <ExploreProduct />
     </>
   );
-}
+};
 
 export default Home;
