@@ -4,7 +4,12 @@ import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
 
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from "@apollo/client";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -40,12 +45,18 @@ const config = createConfig({
   publicClient,
   webSocketPublicClient,
 });
-
+const client = new ApolloClient({
+  uri: "http://localhost:5003/graphql",
+  cache: new InMemoryCache(),
+});
 ReactDOM.render(
-  <WagmiConfig config={config}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </WagmiConfig>,
+  <ApolloProvider client={client}>
+    <WagmiConfig config={config}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </WagmiConfig>
+  </ApolloProvider>,
+
   document.getElementById("root")
 );

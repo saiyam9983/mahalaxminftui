@@ -1,11 +1,12 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
 import React from "react";
-import { useConnect } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 
 export default function WalletConnectModel({ open, setOpen }) {
   const handleClose = () => setOpen(false);
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
+
   const style = {
     position: "absolute",
     top: "50%",

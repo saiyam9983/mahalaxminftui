@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <>
       {console.log(address, isConnected, "data")}
-      <WalletConnectModel open={open} setOpen={setOpen} />
+      <WalletConnectModel open={isConnected ? false : true} setOpen={setOpen} />
       <div className="z-50    ">
         <header style={{ backgroundcolor: "transparent" }}>
           <nav className="mx-auto flex items-center justify-between gap-x-6 p-6 max-w-[1440px] lg:px-8">
