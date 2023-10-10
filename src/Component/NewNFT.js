@@ -1,10 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useTruncateWalletAddress from "../hooks/useTruncate";
-import { useAccount } from "wagmi";
+import {
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 import axios from "axios";
 import usePinataGatewayUrl from "../hooks/usePinataGatewayUrl";
 import { useMutation } from "@apollo/client";
 import { createNft } from "../graphql/mutations/createNft";
+import { NFT_CONTRACT } from "../contracts/address/ContractAddress";
 const initialFormState = {
   name: "",
   description: "",
@@ -17,27 +23,89 @@ const NewNFT = () => {
   // useEffect(() => {
   //   Aos.init({ duration: 3000 })
   // }, [])
-  const resetFormFields = () => {
-    // Reset form fields to their initial values
-    setFormFields(initialFormState);
-  };
   const { address, isConnected } = useAccount();
-  const [formFields, setFormFields] = useState(initialFormState);
-  const JWT =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIxZWQwNDEyMC1hYmRhLTRjNDUtYTYwMy03ODk0MGY2N2M0YWEiLCJlbWFpbCI6ImNvb2xlc3RzYWl5YW1AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjIxYjg0Yjk4ZTIwZjBmNzBlMjczIiwic2NvcGVkS2V5U2VjcmV0IjoiYjhkYWE0NzdhNTg1NzZiNDlkYTE3ZDEzYmI2ZWM1MDM1YjFmNWJlZDMxMjlhYzYwNjM5MjVhOWQyYjQyMTAxOSIsImlhdCI6MTY5NjUyMjcwMn0.AT6mVLoA7lCF8WVEvfWRbn3r1ICU8IKcumoagTweEmA";
-  const createNFT = useMutation(createNft);
-  const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState();
-  const generatePinataGatewayUrl = (ipfsHash) => {
-    return ipfsHash ? `https://gateway.pinata.cloud/ipfs/${ipfsHash}` : null;
-  };
   const [imagePreview, setImagePreview] = useState(
     "https://images.appypie.com/wp-content/uploads/2022/04/18184120/uploadImg.svg"
   );
+  const [selectedFile, setSelectedFile] = useState();
+  const resetFormFields = () => {
+    // Reset form fields to their initial values
+    setFormFields(initialFormState);
+    setSelectedFile();
+    setImagePreview(
+      "https://images.appypie.com/wp-content/uploads/2022/04/18184120/uploadImg.svg"
+    );
+  };
+  const [metadataURI, setMetadataURI] = useState(false);
+  const { config } = usePrepareContractWrite({
+    address: NFT_CONTRACT,
+    abi: [
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "to",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "uri",
+            type: "string",
+          },
+        ],
+        name: "safeMint",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    functionName: "safeMint",
+    args: [address, metadataURI],
+  });
+  const { data, write } = useContractWrite(config);
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
+  const [formFields, setFormFields] = useState(initialFormState);
+  const JWT =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIxZWQwNDEyMC1hYmRhLTRjNDUtYTYwMy03ODk0MGY2N2M0YWEiLCJlbWFpbCI6ImNvb2xlc3RzYWl5YW1AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjIxYjg0Yjk4ZTIwZjBmNzBlMjczIiwic2NvcGVkS2V5U2VjcmV0IjoiYjhkYWE0NzdhNTg1NzZiNDlkYTE3ZDEzYmI2ZWM1MDM1YjFmNWJlZDMxMjlhYzYwNjM5MjVhOWQyYjQyMTAxOSIsImlhdCI6MTY5NjUyMjcwMn0.AT6mVLoA7lCF8WVEvfWRbn3r1ICU8IKcumoagTweEmA";
+  const [createNFT] = useMutation(createNft);
+  const fileInputRef = useRef(null);
+
+  const generatePinataGatewayUrl = (ipfsHash) => {
+    return ipfsHash ? `https://gateway.pinata.cloud/ipfs/${ipfsHash}` : null;
+  };
+
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
-
+  useEffect(() => {
+    if (isSuccess) {
+      createNFT({
+        variables: {
+          name: formFields.name,
+          tokenId: Math.random().toString(),
+          imageUrl: metadataURI,
+          chainId: 80001,
+          nftStatus: "minted",
+          collectionAddress: NFT_CONTRACT,
+          url: metadataURI,
+          network: "Sepolia",
+        },
+      })
+        .then((response) => {
+          alert("NFT Minted Successfully");
+          resetFormFields();
+          return;
+        })
+        .catch((error) => {
+          alert("Database is not initialized");
+          resetFormFields();
+          return;
+        });
+    }
+  }, [isSuccess]);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
@@ -103,8 +171,8 @@ const NewNFT = () => {
       );
 
       const pinataGatewayUrlImg = generatePinataGatewayUrl(res.data.IpfsHash);
-
-      createNFT({ variables: {} });
+      setMetadataURI(pinataGatewayUrlImg);
+      write?.();
     } catch (error) {
       console.log(error);
     }
@@ -316,6 +384,16 @@ const NewNFT = () => {
                 <div>
                   <h1 className="text-gray-300  sm:text-md lg-text-lg xl:text-xl 2xl:text-2xl text-sm sm:text-2xl  font-bold">
                     Unsaved changes ?
+                    {/* {isSuccess && (
+                      <div>
+                        Successfully minted your NFT!
+                        <div>
+                          <a href={`https://etherscan.io/tx/${data?.hash}`}>
+                            Etherscan
+                          </a>
+                        </div>
+                      </div>
+                    )} */}
                   </h1>
                 </div>
               </div>
