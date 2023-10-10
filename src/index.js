@@ -1,6 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { WagmiConfig, createConfig, configureChains, mainnet } from "wagmi";
+import {
+  WagmiConfig,
+  createConfig,
+  configureChains,
+  mainnet,
+  sepolia,
+} from "wagmi";
 
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
@@ -20,8 +26,11 @@ import { BrowserRouter } from "react-router-dom";
 import "../node_modules/aos/dist/aos.css";
 import { createPublicClient, http } from "viem";
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet],
-  [alchemyProvider({ apiKey: "yourAlchemyApiKey" }), publicProvider()]
+  [sepolia],
+  [
+    alchemyProvider({ apiKey: "-pK11QyhV_aaG5LjCGoH82PzwS3Y4mf9" }),
+    publicProvider(),
+  ]
 );
 const config = createConfig({
   autoConnect: true,
