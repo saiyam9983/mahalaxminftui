@@ -5,12 +5,14 @@ import ExploreProductCard from "./ExploreProductCard";
 import { useState } from "react";
 import Aos from "aos";
 import { useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { allNFT } from "../graphql/queries/getAllNFT";
 
 const ExploreProduct = () => {
   useEffect(() => {
     Aos.init({ duration: 1000 });
   }, []);
-
+  const { data: nfts, isLoading } = useQuery(allNFT);
   const [selected1, setSelected1] = useState("");
   const [selected2, setSelected2] = useState("");
   const [selected3, setSelected3] = useState("");
@@ -41,8 +43,7 @@ const ExploreProduct = () => {
               className="font-bold text-white text-xs xl:text-sm"
               href="/"
               target="_blank"
-              rel="noreferrer"
-            >
+              rel="noreferrer">
               {" "}
               <span className="flex rounded-md items-center space-x-3 buttonBg  py-2 px-4 lg:px-6 xl:py-4 xl:px-10  transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-300">
                 <FilterAltOutlinedIcon className="text-white" /> Filter
@@ -57,8 +58,7 @@ const ExploreProduct = () => {
               <select
                 value={selected1}
                 onChange={handleChange1}
-                className="bg-transparent h-full w-full text-white"
-              >
+                className="bg-transparent h-full w-full text-white">
                 <option disabled={true} value="">
                   Most Liked
                 </option>
@@ -75,8 +75,7 @@ const ExploreProduct = () => {
               <select
                 value={selected2}
                 onChange={handleChange2}
-                className="bg-transparent h-full w-full text-white"
-              >
+                className="bg-transparent h-full w-full text-white">
                 <option disabled={true} value="">
                   Catagory
                 </option>
@@ -93,8 +92,7 @@ const ExploreProduct = () => {
               <select
                 value={selected3}
                 onChange={handleChange3}
-                className="bg-transparent h-full w-full text-white"
-              >
+                className="bg-transparent h-full w-full text-white">
                 <option disabled={true} value="">
                   Sale Type
                 </option>
@@ -129,7 +127,7 @@ const ExploreProduct = () => {
         </div>
 
         <div className="sm:grid max-w-7xl mx-auto gap-x-10 grid-cols-1 gap-y-10  md:grid-cols-2 lg:grid-cols-3 md:gap-y-0 xl:gap-x-20 flex flex-col  justify-center items-center">
-          {ExploreProductData.map((item, index) => (
+          {nfts?.nfts?.map((item, index) => (
             <ExploreProductCard key={index} data={item} />
           ))}
         </div>
@@ -139,8 +137,7 @@ const ExploreProduct = () => {
             className="font-bold text-white text-xs xl:text-sm"
             href="/"
             target="_blank"
-            rel="noreferrer"
-          >
+            rel="noreferrer">
             {" "}
             <span className="flex rounded-md items-center space-x-3 buttonBg  py-2 px-4 lg:px-6 xl:py-4 xl:px-10  transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-300">
               View More
@@ -150,8 +147,7 @@ const ExploreProduct = () => {
 
         <div
           className="boxbgColor    rounded-xl my-5 flex justify-center items-center flex-col px-2 gap-x-10  gap-y-10   xl:gap-x-20 "
-          data-aos="zoom-in-up"
-        >
+          data-aos="zoom-in-up">
           <div>
             <h1 className="text-white font-bold md:text-4xl sm:text-3xl text-2xl  my-2 mt-10">
               Create Your Own NFT

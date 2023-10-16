@@ -18,7 +18,11 @@ const Navbar = () => {
   return (
     <>
       {console.log(address, isConnected, "data")}
-      <WalletConnectModel open={isConnected ? false : true} setOpen={setOpen} />
+      <WalletConnectModel
+        open={isConnected ? false : true}
+        setOpen={setOpen}
+        disconnect={disconnect}
+      />
       <div className="z-50    ">
         <header style={{ backgroundcolor: "transparent" }}>
           <nav className="mx-auto flex items-center justify-between gap-x-6 p-6 max-w-[1440px] lg:px-8">
@@ -90,7 +94,10 @@ const Navbar = () => {
                     <button
                       className="font-bold text-white text-xs xl:text-sm"
                       // onClick={() => disconnect()}
-                      onClick={() => setOpen(false)}
+                      onClick={
+                        disconnect
+                        // setOpen(falxse);
+                      }
                       rel="noreferrer">
                       {" "}
                       <span className="flex rounded-md items-center space-x-3 boxbgColor  py-3 px-4 lg:px-6 xl:py-4 xl:px-8  transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-105 duration-300">

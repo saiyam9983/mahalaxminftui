@@ -64,7 +64,11 @@ const NewNFT = () => {
   });
   const { data, write } = useContractWrite(config);
 
-  const { isLoading, isSuccess } = useWaitForTransaction({
+  const {
+    data: transDATA,
+    isLoading,
+    isSuccess,
+  } = useWaitForTransaction({
     hash: data?.hash,
   });
   const [formFields, setFormFields] = useState(initialFormState);
@@ -80,6 +84,9 @@ const NewNFT = () => {
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
+  console.log("====================================");
+  console.log(transDATA, "nft data");
+  console.log("====================================");
   useEffect(() => {
     if (isSuccess) {
       createNFT({

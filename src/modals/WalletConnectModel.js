@@ -1,11 +1,31 @@
+import { useMutation } from "@apollo/client";
 import { Box, Button, Modal, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAccount, useConnect } from "wagmi";
+import { linkUserWallet } from "../graphql/mutations/linkWallet";
 
-export default function WalletConnectModel({ open, setOpen }) {
+export default function WalletConnectModel({ open, setOpen, disconnect }) {
   const handleClose = () => setOpen(false);
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
+  const { address, isConnected } = useAccount();
+
+  const [LinkWallet] = useMutation(linkUserWallet);
+  useEffect(() => {
+    if (isConnected) {
+      LinkWallet({
+        variables: {
+          walletAddress: address,
+        },
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [isConnected]);
 
   const style = {
     position: "absolute",
