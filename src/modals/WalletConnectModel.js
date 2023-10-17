@@ -3,6 +3,7 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useAccount, useConnect } from "wagmi";
 import { linkUserWallet } from "../graphql/mutations/linkWallet";
+import { Signup } from "../graphql/mutations/signup";
 
 export default function WalletConnectModel({ open, setOpen, disconnect }) {
   const handleClose = () => setOpen(false);
@@ -11,16 +12,15 @@ export default function WalletConnectModel({ open, setOpen, disconnect }) {
   const { address, isConnected } = useAccount();
 
   const [LinkWallet] = useMutation(linkUserWallet);
+  const [SignupUserWallet] = useMutation(Signup);
   useEffect(() => {
     if (isConnected) {
-      LinkWallet({
+      SignupUserWallet({
         variables: {
           walletAddress: address,
         },
       })
-        .then((res) => {
-          console.log(res);
-        })
+        .then((res) => {})
         .catch((err) => {
           console.log(err);
         });

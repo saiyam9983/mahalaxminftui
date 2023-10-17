@@ -88,11 +88,11 @@ const NewNFT = () => {
   console.log(transDATA, "nft data");
   console.log("====================================");
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && transDATA) {
       createNFT({
         variables: {
           name: formFields.name,
-          tokenId: Math.random().toString(),
+          tokenId: parseInt(transDATA?.logs[1]?.data, 16).toString(),
           imageUrl: metadataURI,
           chainId: 80001,
           nftStatus: "minted",

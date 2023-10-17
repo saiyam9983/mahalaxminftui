@@ -1,23 +1,29 @@
 import { gql } from "@apollo/client";
 
-export const Signup = gql`
-  mutation SignUp(
-    $aboutDetails: String
-    $username: String
+export const updateUser = gql`
+  mutation UpdateUser(
+    $userId: String
     $displayName: String
-    $instagramUrl: String
-    $walletAddress: String
+    $username: String
+    $avatarUrl: String
+    $aboutDetails: String
+    $bgImage: String
     $twitterUrl: String
     $facebookUrl: String
+    $instagramUrl: String
+    $isVerify: Boolean
   ) {
-    signUp(
-      about_details: $aboutDetails
-      username: $username
+    updateUser(
+      userId: $userId
       displayName: $displayName
-      instagramUrl: $instagramUrl
-      walletAddress: $walletAddress
+      username: $username
+      avatar_url: $avatarUrl
+      about_details: $aboutDetails
+      bg_image: $bgImage
       twitterUrl: $twitterUrl
       facebookUrl: $facebookUrl
+      instagramUrl: $instagramUrl
+      isVerify: $isVerify
     ) {
       _id
       displayName
@@ -31,9 +37,7 @@ export const Signup = gql`
       isVerify
       userBadge
       wallets {
-        _id
         address
-        isPrimary
       }
     }
   }
