@@ -19,7 +19,7 @@ const App = () => {
         <Route path="/newNFT" Component={NewNFT} />
         <Route path="/followers" Component={Followers} />
         <Route path="/profile" Component={Profile} />
-        <Route path="/sell" Component={Sell} />
+        <Route path="/sell/:collection/:tokenid" Component={Sell} />
         <Route path="/products" Component={Products} />
 
         <Route path="/marketplace" Component={Marketplace} />
